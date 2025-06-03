@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -156,13 +158,14 @@
 
         /* --- Header --- */
         .main-header {
-            background-color: transparent; /* Rende la navbar trasparente */
-            box-shadow: none; /* Rimuove l'ombra */
+            background-color: transparent; /* Inizialmente trasparente */
+            box-shadow: none; /* Nessuna ombra all'inizio */
             padding: 15px 0;
             position: fixed; /* Rende la navbar fissa in alto */
             width: 100%;
             top: 0;
             left: 0;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transizione fluida */
             z-index: 1000;
         }
 
@@ -178,9 +181,9 @@
             /* Il logo è sempre nero, nessuna manipolazione del colore qui */
         }
 
-        /* Links nel header (default per mobile/tendina, overridden per desktop) */
+        /* Links nel header (inizialmente neri, come da richiesta cliente) */
         .main-nav ul li a {
-            color: var(--color-black); /* Colore per menu a tendina (sfondo nero) */
+            color: var(--color-black); /* Colore per menu a tendina (sfondo nero) e iniziale trasparente */
             transition: color 0.3s ease;
         }
 
@@ -191,10 +194,10 @@
             justify-content: space-around;
             width: 40px; /* Un po' più grande */
             height: 35px; /* Un po' più grande */
-            background-color: transparent; /* Senza sfondo, su navbar bianca */
+            background-color: transparent; /* Trasparente, barre nere inizialmente */
             border: none;
             cursor: pointer;
-            padding: 0; /* Rimosso padding dal pulsante per lasciare alle barre */
+            padding: 0;
             z-index: 1001;
         }
 
@@ -203,6 +206,12 @@
             height: 3px;
             background-color: var(--color-black); /* Sempre nero come richiesto */
             transition: all 0.3s ease-in-out;
+        }
+
+        /* Header - Stato "scrolled" */
+        .main-header.scrolled {
+            background-color: var(--color-white); /* Bianco opaco quando scrollato */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Aggiunge ombra quando scrollato */
         }
 
         /* Animazione Hamburger */
@@ -222,7 +231,7 @@
             top: 80px; /* Altezza header */
             left: 0;
             width: 100%;
-            background-color: var(--color-white); /* Sfondo scuro per il menu a tendina */
+            background-color: var(--color-black); /* Sfondo scuro per il menu a tendina aperto */
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
@@ -248,6 +257,7 @@
 
         .main-nav ul li a {
             display: block;
+            color: var(--color-white); /* Link bianchi per il menu a tendina aperto (sfondo nero) */
             font-size: 1.1em;
             padding: 10px 0;
             transition: background-color 0.3s ease;
@@ -686,6 +696,15 @@
             }
 
             /* Header - Desktop specific */
+            .main-header {
+                background-color: var(--color-white); /* Sempre bianco su desktop */
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .main-header .logo img {
+                /* Nessun content switch, è già il logo nero */
+            }
+
             .mobile-menu-toggle {
                 display: none; /* Nasconde l'hamburger su desktop */
             }
@@ -815,1077 +834,233 @@
                 min-height: 650px; /* Altezza leggermente maggiore per schermi molto grandi */
             }
         }
-    }
-
-        .main-header.scrolled {
-            background-color: var(--color-white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .main-header.scrolled .main-nav ul li a {
-            color: var(--color-black);
-        }
-
-        .main-header.scrolled .mobile-menu-toggle .bar {
-            background-color: var(--color-black);
-        }
-
-        /* --- Hero Section --- */
-        .hero-section {
-            color: var(--color-white);
-            padding: 100px 15px; /* Mobile */
-            padding-top: 150px; /* Spazio per l'header fisso */
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 550px; /* Altezza ridotta per mobile, ma comunque "full screen" in larghezza */
-            position: relative;
-            overflow: hidden; /* Nasconde le parti delle immagini che fuoriescono */
-        }
-
-        /* Overlay per migliorare la leggibilità del testo */
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3); /* Overlay scuro, ora più chiaro */
-            z-index: 1; /* Metti l'overlay sopra lo slideshow, ma sotto il contenuto */
-        }
-
-        /* Slideshow specific CSS */
-        .slideshow-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0; /* Assicura che sia dietro il contenuto e l'overlay */
-        }
-
-        .slideshow-container img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Copre l'intera area */
-            opacity: 0; /* Inizialmente nascosto */
-            transition: opacity 1.5s ease-in-out; /* Transizione di dissolvenza fluida */
-        }
-
-        .slideshow-container img.active {
-            opacity: 1; /* Immagine attiva visibile */
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2; /* Deve essere più alto dello slideshow e dell'overlay */
-            max-width: 800px;
-        }
-
-        .hero-content h1 {
-            color: var(--color-white);
-            font-size: 2.8em; /* Mobile */
-            margin-bottom: 20px;
-            line-height: 1.2;
-            font-weight: 300; /* Reso molto più sottile qui */
-        }
-
-        .hero-content p {
-            color: var(--color-white); /* Assicura che il testo sia bianco */
-            font-size: 1.05em; /* Leggermente più piccolo */
-            margin-bottom: 0; /* Rimuovi il margine sotto, perché il bottone è altrove */
-            line-height: 1.5;
-        }
-
-        /* --- Nuova Sezione per il Bottone CTA sotto Hero --- */
-        .hero-cta-section {
-            background-color: var(--color-light-gray);
-            padding: 40px 15px;
-            text-align: center;
-            /* Sezione per compensare l'altezza dell'header fisso per il resto del contenuto */
-            margin-top: -60px; /* Spostato in su per sovrapporsi leggermente al hero e riprendere lo spazio */
-            position: relative; /* Per z-index se necessario */
-            z-index: 1; /* Assicurati che sia sopra altri elementi se si sovrappongono */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Ombra leggera */
-        }
-        .hero-cta-section .btn {
-            margin: 0 auto; /* Centra il bottone */
-        }
-
-
-        /* --- Hero Section per le Sottopagine (se le creerai) --- */
-        /* Questa sezione non è usata in questo index.html, ma la lascio per quando creerai le altre pagine */
-        .hero-subpage {
-            background-color: var(--color-black); /* Sfondo scuro per sottosezioni */
-            color: var(--color-white);
-            padding: 80px 15px 40px; /* Padding ridotto rispetto alla home */
-            padding-top: 120px; /* Per compensare l'header fisso */
-            text-align: center;
-            position: relative;
-            z-index: 1; 
-        }
-
-        .hero-subpage h1 {
-            color: var(--color-white);
-            font-size: 2.2em;
-            margin-bottom: 0;
-        }
-        
-        .hero-subpage p {
-            font-size: 1.1em;
-            color: var(--color-medium-gray);
-            margin-top: 10px;
-        }
-
-
-        /* --- Chi Siamo Section --- */
-        .chi-siamo-grid {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 30px;
-            align-items: center;
-        }
-
-        .chi-siamo-grid .text-content {
-            text-align: center; /* Centra il testo su mobile */
-        }
-
-        .chi-siamo-grid .image-content {
-            max-width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* --- Servizi Overview (cards) --- */
-        .services-grid {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 30px;
-        }
-
-        .service-card {
-            background-color: var(--color-white);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            padding: 30px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-
-        .service-card img {
-            height: 150px; /* Fixed height for image consistency */
-            object-fit: cover;
-            margin: 0 auto 20px auto;
-            border-radius: 4px;
-        }
-
-        .service-card h3 {
-            color: var(--color-orange);
-            font-size: 1.3em;
-        }
-
-        .service-card p {
-            font-size: 0.95em;
-            margin-bottom: 20px;
-        }
-
-        /* --- Sezioni Dettaglio Servizi (Demolizioni, Ristrutturazioni) --- */
-        /* Queste sezioni sono pensate per le pagine separate, non per la home */
-        .section-content-grid {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 40px;
-            align-items: center;
-        }
-
-        .section-content-grid .text-content,
-        .section-content-grid .image-content {
-            flex: 1; /* Allow content to grow */
-            text-align: center; /* Centra il testo su mobile */
-        }
-
-        .section-content-grid .image-content img {
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .section-content-grid ul {
-            list-style: disc;
-            list-style-position: inside;
-            margin-bottom: 20px;
-            text-align: left; /* Allinea il testo delle liste a sinistra */
-            padding-left: 20px; /* Indentazione per i pallini */
-        }
-
-        .section-content-grid ul li {
-            margin-bottom: 10px;
-        }
-
-        .call-to-action-small {
-            text-align: center;
-            margin-top: 40px;
-            padding: 30px 20px;
-            background-color: var(--color-white);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .call-to-action-small p {
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            color: var(--color-black);
-            font-family: 'Oswald', sans-serif;
-        }
-
-        /* --- Nuove Realizzazioni Section --- */
-        /* Questa sezione è pensata per la pagina "nuove-costruzioni.html" */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* Mobile: single column */
-            gap: 30px;
-        }
-
-        .project-item {
-            background-color: var(--color-white);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .project-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-
-        .project-item img {
-            width: 100%;
-            height: 250px; /* Fixed height for consistency */
-            object-fit: cover;
-        }
-
-        .project-item h3 {
-            margin: 20px 20px 10px 20px;
-            color: var(--color-orange);
-        }
-
-        .project-item p {
-            margin: 0 20px 20px 20px;
-            font-size: 0.95em;
-            color: var(--color-medium-gray);
-        }
-
-        /* --- Contatti Section --- */
-        /* Questa sezione è pensata per la pagina "contatti.html" */
-        .contact-grid {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 40px;
-        }
-
-        .contact-form, .contact-info {
-            flex: 1;
-            background-color: var(--color-white);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        }
-
-        .contact-form h3, .contact-info h3 {
-            color: var(--color-black);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--color-dark-gray);
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .contact-info .info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 1.1em;
-            color: var(--color-dark-gray);
-        }
-
-        .contact-info .info-item .icon {
-            width: 24px; /* Dimensione delle icone */
-            height: 24px;
-            margin-right: 15px;
-            filter: invert(0.2); /* Rende le icone scure se sono chiare */
-        }
-
-        .contact-info .info-item a {
-            color: var(--color-dark-gray);
-        }
-        .contact-info .info-item a:hover {
-            color: var(--color-orange);
-        }
-
-        .contact-info .legal-info {
-            font-size: 0.9em;
-            color: var(--color-medium-gray);
-            margin-top: 20px;
-            display: block; /* Overrides flex display */
-        }
-
-        .map-container {
-            margin-top: 30px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        /* --- Footer --- */
-        .main-footer {
-            background-color: var(--color-black);
-            color: var(--color-white);
-            padding: 40px 0;
-            font-size: 0.9em;
-        }
-
-        .main-footer .container {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 30px;
-            text-align: center;
-        }
-
-        .footer-col {
-            flex: 1;
-        }
-
-        .footer-logo img {
-            height: 50px; /* Altezza logo nel footer */
-            margin-bottom: 15px;
-            display: inline-block; /* Per centrare l'immagine nel testo */
-            content: url('img/FF-COSTRUZIONI.png'); /* Usa il logo nero per il footer scuro */
-            filter: brightness(0) invert(1); /* Inverte il colore per renderlo bianco su sfondo nero */
-        }
-
-        .footer-logo p {
-            font-size: 0.85em;
-            color: var(--color-medium-gray);
-        }
-
-        .main-footer h4 {
-            color: var(--color-orange);
-            font-family: 'Oswald', sans-serif;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .main-footer ul {
-            padding: 0;
-        }
-
-        .main-footer ul li {
-            margin-bottom: 10px;
-        }
-
-        .main-footer ul li a {
-            color: var(--color-white);
-            transition: color 0.3s ease;
-        }
-
-        .main-footer ul li a:hover {
-            color: var(--color-orange);
-        }
-
-        .footer-contact p {
-            margin-bottom: 10px;
-        }
-
-        .footer-contact a {
-            color: var(--color-white);
-        }
-        .footer-contact a:hover {
-            color: var(--color-orange);
-        }
-
-        /* --- Media Queries per Desktop/Tablet --- */
-        @media (min-width: 768px) {
-            h1 {
-                font-size: 3.5em;
-            }
-
-            h2 {
-                font-size: 2.8em;
-            }
-
-            h3 {
-                font-size: 1.6em;
-            }
-
-            .section-padding {
-                padding: 80px 0;
-            }
-
-            /* Header - Desktop specific */
-            .mobile-menu-toggle {
-                display: none; /* Nasconde l'hamburger su desktop */
-            }
-
-            .main-nav {
-                position: static; /* Ripristina la posizione normale per desktop */
-                max-height: none; /* Rimuove limite altezza */
-                overflow: visible; /* Rimuove overflow nascosto */
-                background-color: transparent; /* Sfondo trasparente per il menu orizzontale */
-                box-shadow: none; /* Nessuna ombra per il menu orizzontale */
-                display: block; /* Mostra il menu come un blocco */
-            }
-
-            .main-nav ul {
-                display: flex; /* Menu orizzontale */
-                padding: 0;
-            }
-
-            .main-nav ul li {
-                margin: 0 15px;
-            }
-
-            .main-nav ul li a {
-                color: var(--color-black); /* Link neri su desktop */
-                padding: 5px 0;
-                background-color: transparent;
-            }
-
-            .main-nav ul li a:hover {
-                color: var(--color-orange);
-                background-color: transparent;
-            }
+    </style>
+    <!-- FINE CSS INLINE -->
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <!-- Il logo è sempre nero -->
+                <img src="img/FF-COSTRUZIONI.png" alt="FF Costruzioni Logo">
+            </a>
             
-            /* Hero */
-            .hero-section {
-                min-height: 600px; /* Altezza leggermente maggiore su desktop */
-                padding-top: 150px; /* Per compensare l'header fisso */
-                padding-bottom: 100px; /* Un po' più di spazio sotto */
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <nav class="main-nav" id="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                    <li><a href="demolizioni.html">Demolizioni</a></li>
+                    <li><a href="ristrutturazioni.html">Ristrutturazioni</a></li>
+                    <li><a href="nuove-costruzioni.html">Nuove Realizzazioni</a></li>
+                    <li><a href="contatti.html">Contatti</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section con Slideshow -->
+        <section id="home" class="hero-section">
+            <div class="slideshow-container">
+                <!-- Le immagini dello slideshow verranno caricate qui da JavaScript -->
+            </div>
+            <div class="hero-content">
+                <h1>FF COSTRUZIONI: Costruiamo i vostri sogni.</h1>
+                <p>Esperti in Demolizioni, Ristrutturazioni e Nuove Costruzioni di qualità in Emilia-Romagna.</p>
+            </div>
+        </section>
+
+        <!-- Nuova Sezione per il Bottone CTA sotto Hero -->
+        <section class="hero-cta-section">
+            <div class="container">
+                <a href="contatti.html" class="btn btn-primary">Richiedi un Preventivo Gratuito</a>
+            </div>
+        </section>
+
+        <!-- Chi Siamo Overview Section (della home) -->
+        <section class="section-padding bg-light-gray">
+            <div class="container">
+                <h2>Chi Siamo</h2>
+                <div class="chi-siamo-grid">
+                    <div class="text-content">
+                        <p>FF COSTRUZIONI nasce dalla passione e dall'esperienza consolidata nel settore edile. Siamo un'impresa dinamica e affidabile, specializzata in un'ampia gamma di servizi, dalla demolizione alla realizzazione di nuove costruzioni, passando per ristrutturazioni di ogni tipo.</p>
+                        <p>Il nostro obiettivo è trasformare le vostre idee in realtà, garantendo sempre professionalità, qualità dei materiali e rispetto dei tempi. Ogni progetto è gestito con la massima cura, dall'ideazione alla consegna finale, mettendo sempre al centro le esigenze del cliente.</p>
+                        <a href="chi-siamo.html" class="btn btn-secondary">Scopri la Nostra Storia</a>
+                    </div>
+                    <div class="image-content">
+                        <!-- Immagine rappresentativa dell'azienda o del team -->
+                        <img src="img/chi-siamo-placeholder.jpg" alt="Il team di FF Costruzioni al lavoro">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Servizi Overview (cards) (della home) -->
+        <section class="section-padding services-overview">
+            <div class="container">
+                <h2>I Nostri Servizi Principali</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Demolizioni</h3>
+                        <img src="img/demolizioni-card.jpg" alt="Demolizioni">
+                        <p>Interventi rapidi e sicuri per demolizioni civili e industriali, con smaltimento certificato.</p>
+                        <a href="demolizioni.html" class="btn btn-tertiary">Dettagli</a>
+                    </div>
+                    <div class="service-card">
+                        <h3>Ristrutturazioni</h3>
+                        <img src="img/ristrutturazioni-card.jpg" alt="Ristrutturazioni">
+                        <p>Diamo nuova vita ai vostri spazi, con soluzioni su misura e massima attenzione ai dettagli.</p>
+                        <a href="ristrutturazioni.html" class="btn btn-tertiary">Dettagli</a>
+                    </div>
+                    <div class="service-card">
+                        <h3>Nuove Costruzioni</h3>
+                        <img src="img/nuove-costruzioni-card.jpg" alt="Nuove Costruzioni">
+                        <p>Progettiamo e realizziamo edifici moderni, funzionali e ad alta efficienza energetica.</p>
+                        <a href="nuove-costruzioni.html" class="btn btn-tertiary">Dettagli</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Finale su Home -->
+        <section class="section-padding bg-light-gray">
+            <div class="container">
+                <div class="call-to-action-small">
+                    <p>Pronto a dare vita al tuo prossimo progetto?</p>
+                    <a href="contatti.html" class="btn btn-primary">Contattaci per un Preventivo Gratuito</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-col footer-logo">
+                <!-- Il logo nel footer è impostato per essere bianco su sfondo nero -->
+                <img src="img/FF-COSTRUZIONI.png" alt="FF Costruzioni Logo"> 
+                <p>© 2023 FF COSTRUZIONI. Tutti i diritti riservati.</p>
+            </div>
+            <div class="footer-col footer-nav">
+                <h4>Link Utili</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                    <li><a href="nuove-costruzioni.html">Realizzazioni</a></li>
+                    <li><a href="contatti.html">Contatti</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h4>Contatti Rapidi</h4>
+                <p>Tel: <a href="tel:3485530158">348 5530158</a></p>
+                <p>Email: <a href="mailto:ffcostruzioni96@gmail.com">ffcostruzioni96@gmail.com</a></p>
+                <p>C.F. e P.IVA 02108050382</p>
+            </div>
+            <div class="footer-col footer-legal">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript per il menu mobile, slideshow e scroll effect -->
+    <script>
+        // Slideshow logic
+        const slideshowImages = [
+            'img/n-1.jpg',      // Immagine 1
+            'img/nre2.jpg',     // Immagine 2
+            'img/residence.jpg',// Immagine 3
+            'img/nuova-f.jpg'   // Immagine 4
+            // Aggiungi o rimuovi immagini qui. Assicurati che siano nella cartella 'img'.
+        ];
+        let currentSlide = 0;
+        let slideshowInterval; 
+
+        function startSlideshow() {
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            if (!slideshowContainer) return; 
+
+            slideshowContainer.innerHTML = ''; 
+
+            slideshowImages.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Slideshow image ${index + 1}`;
+                if (index === 0) {
+                    img.classList.add('active'); 
+                }
+                slideshowContainer.appendChild(img);
+            });
+
+            const images = slideshowContainer.querySelectorAll('img');
+
+            function showNextSlide() {
+                images[currentSlide].classList.remove('active'); 
+                currentSlide = (currentSlide + 1) % images.length; 
+                images[currentSlide].classList.add('active'); 
             }
 
-            .hero-content h1 {
-                font-size: 4em;
+            slideshowInterval = setInterval(showNextSlide, 5000); // Cambia immagine ogni 5 secondi
+        }
+
+        // Navbar scroll effect logic (cambia sfondo header)
+        const mainHeader = document.querySelector('.main-header');
+        const headerThreshold = 50; // Posizione di scroll in pixel per cambiare lo stile del header
+
+        function handleScroll() {
+            if (window.scrollY > headerThreshold) {
+                mainHeader.classList.add('scrolled');
+            } else {
+                mainHeader.classList.remove('scrolled');
             }
+        }
+
+        // Call on DOMContentLoaded for initial setup
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle logic
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const navLinks = mainNav.querySelectorAll('a');
+
+            mobileMenuToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+                mobileMenuToggle.classList.toggle('active');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileMenuToggle.classList.remove('active');
+                    }
+                });
+            });
+
+            // Avvia lo slideshow solo se siamo sulla Home Page (index.html)
+            const currentPath = window.location.pathname;
+            const isHomePage = currentPath === '/' || currentPath.endsWith('/index.html') || currentPath.endsWith('/index.htm');
             
-            .hero-content p {
-                font-size: 1.15em; /* Leggermente più grande su desktop */
+            if (isHomePage) {
+                 startSlideshow();
+                 // Avvia il controllo dello scroll solo sulla home
+                 handleScroll(); // Esegui una volta al caricamento per lo stato iniziale
+                 window.addEventListener('scroll', handleScroll); // Aggiungi listener per lo scroll
+            } else {
+                // Per le altre pagine, imposta l'header come "scrolled" (bianco)
+                mainHeader.classList.add('scrolled');
+                // Non aggiungere listener scroll su altre pagine se non hanno uno slideshow trasparente
             }
-
-            .hero-subpage {
-                padding-top: 150px; /* Anche per le sottopagine, per compensare l'header fisso */
-            }
-
-            .hero-subpage h1 {
-                font-size: 3em;
-            }
-
-            /* Chi Siamo */
-            .chi-siamo-grid {
-                flex-direction: row; /* Desktop: row layout */
-                text-align: left;
-            }
-
-            .chi-siamo-grid .text-content,
-            .chi-siamo-grid .image-content {
-                flex: 1; /* Distribuire lo spazio in modo equo */
-            }
-
-            /* Servizi Overview */
-            .services-grid {
-                flex-direction: row; /* Desktop: row layout */
-                justify-content: center; /* Centra le card se meno di 3 */
-            }
-
-            .service-card {
-                flex: 1; /* Fa sì che le card occupino spazio equo */
-                max-width: 380px; /* Limita la larghezza massima di una card */
-            }
-
-            /* Sezioni Dettaglio Servizi */
-            .section-content-grid {
-                flex-direction: row; /* Desktop: row layout */
-                text-align: left;
-            }
-
-            .section-content-grid.reverse-order-mobile {
-                flex-direction: row-reverse; /* Per invertire l'ordine su desktop */
-            }
-
-            .section-content-grid .text-content ul {
-                padding-left: 0; /* Rimuovi l'indentazione extra su desktop */
-            }
-
-
-            /* Nuove Realizzazioni */
-            .projects-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2 o 3 colonne */
-            }
-
-            /* Contatti */
-            .contact-grid {
-                flex-direction: row; /* Desktop: row layout */
-            }
-
-            /* Footer */
-            .main-footer .container {
-                flex-direction: row;
-                justify-content: space-between;
-                text-align: left;
-            }
-
-            .footer-logo img {
-                margin-left: 0; /* Allinea a sinistra */
-            }
-        }
-
-        /* Media Query per schermi molto grandi (>1024px) */
-        @media (min-width: 1024px) {
-            h1 {
-                font-size: 4.5em;
-            }
-
-            h2 {
-                font-size: 3.2em;
-            }
-            
-            .hero-section {
-                min-height: 650px; /* Altezza leggermente maggiore per schermi molto grandi */
-            }
-        }
-    }
-
-        .main-header.scrolled {
-            background-color: var(--color-white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .main-header.scrolled .main-nav ul li a {
-            color: var(--color-black);
-        }
-
-        .main-header.scrolled .mobile-menu-toggle .bar {
-            background-color: var(--color-black);
-        }
-
-        /* --- Hero Section --- */
-        .hero-section {
-            color: var(--color-white);
-            padding: 100px 15px; /* Mobile */
-            padding-top: 150px; /* Spazio per l'header fisso */
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 550px; /* Altezza ridotta per mobile, ma comunque "full screen" in larghezza */
-            position: relative;
-            overflow: hidden; /* Nasconde le parti delle immagini che fuoriescono */
-        }
-
-        /* Overlay per migliorare la leggibilità del testo */
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3); /* Overlay scuro, ora più chiaro */
-            z-index: 1; /* Metti l'overlay sopra lo slideshow, ma sotto il contenuto */
-        }
-
-        /* Slideshow specific CSS */
-        .slideshow-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0; /* Assicura che sia dietro il contenuto e l'overlay */
-        }
-
-        .slideshow-container img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Copre l'intera area */
-            opacity: 0; /* Inizialmente nascosto */
-            transition: opacity 1.5s ease-in-out; /* Transizione di dissolvenza fluida */
-        }
-
-        .slideshow-container img.active {
-            opacity: 1; /* Immagine attiva visibile */
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2; /* Deve essere più alto dello slideshow e dell'overlay */
-            max-width: 800px;
-        }
-
-        .hero-content h1 {
-            color: var(--color-white);
-            font-size: 2.8em; /* Mobile */
-            margin-bottom: 20px;
-            line-height: 1.2;
-            font-weight: 300; /* Reso molto più sottile qui */
-        }
-
-        .hero-content p {
-            color: var(--color-white); /* Assicura che il testo sia bianco */
-            font-size: 1.05em; /* Leggermente più piccolo */
-            margin-bottom: 0; /* Rimuovi il margine sotto, perché il bottone è altrove */
-            line-height: 1.5;
-        }
-
-        /* --- Nuova Sezione per il Bottone CTA sotto Hero --- */
-        .hero-cta-section {
-            background-color: var(--color-light-gray);
-            padding: 40px 15px;
-            text-align: center;
-            /* Sezione per compensare l'altezza dell'header fisso per il resto del contenuto */
-            margin-top: -60px; /* Spostato in su per sovrapporsi leggermente al hero e riprendere lo spazio */
-            position: relative; /* Per z-index se necessario */
-            z-index: 1; /* Assicurati che sia sopra altri elementi se si sovrappongono */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Ombra leggera */
-        }
-        .hero-cta-section .btn {
-            margin: 0 auto; /* Centra il bottone */
-        }
-
-
-        /* --- Hero Section per le Sottopagine (se le creerai) --- */
-        /* Questa sezione non è usata in questo index.html, ma la lascio per quando creerai le altre pagine */
-        .hero-subpage {
-            background-color: var(--color-black); /* Sfondo scuro per sottosezioni */
-            color: var(--color-white);
-            padding: 80px 15px 40px; /* Padding ridotto rispetto alla home */
-            padding-top: 120px; /* Per compensare l'header fisso */
-            text-align: center;
-            position: relative;
-            z-index: 1; 
-        }
-
-        .hero-subpage h1 {
-            color: var(--color-white);
-            font-size: 2.2em;
-            margin-bottom: 0;
-        }
-        
-        .hero-subpage p {
-            font-size: 1.1em;
-            color: var(--color-medium-gray);
-            margin-top: 10px;
-        }
-
-
-        /* --- Chi Siamo Section --- */
-        .chi-siamo-grid {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 30px;
-            align-items: center;
-        }
-
-        .chi-siamo-grid .text-content {
-            text-align: center; /* Centra il testo su mobile */
-        }
-
-        .chi-siamo-grid .image-content {
-            max-width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* --- Servizi Overview (cards) --- */
-        .services-grid {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 30px;
-        }
-
-        .service-card {
-            background-color: var(--color-white);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            padding: 30px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-
-        .service-card img {
-            height: 150px; /* Fixed height for image consistency */
-            object-fit: cover;
-            margin: 0 auto 20px auto;
-            border-radius: 4px;
-        }
-
-        .service-card h3 {
-            color: var(--color-orange);
-            font-size: 1.3em;
-        }
-
-        .service-card p {
-            font-size: 0.95em;
-            margin-bottom: 20px;
-        }
-
-        /* --- Sezioni Dettaglio Servizi (Demolizioni, Ristrutturazioni) --- */
-        /* Queste sezioni sono pensate per le pagine separate, non per la home */
-        .section-content-grid {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 40px;
-            align-items: center;
-        }
-
-        .section-content-grid .text-content,
-        .section-content-grid .image-content {
-            flex: 1; /* Allow content to grow */
-            text-align: center; /* Centra il testo su mobile */
-        }
-
-        .section-content-grid .image-content img {
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .section-content-grid ul {
-            list-style: disc;
-            list-style-position: inside;
-            margin-bottom: 20px;
-            text-align: left; /* Allinea il testo delle liste a sinistra */
-            padding-left: 20px; /* Indentazione per i pallini */
-        }
-
-        .section-content-grid ul li {
-            margin-bottom: 10px;
-        }
-
-        .call-to-action-small {
-            text-align: center;
-            margin-top: 40px;
-            padding: 30px 20px;
-            background-color: var(--color-white);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .call-to-action-small p {
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            color: var(--color-black);
-            font-family: 'Oswald', sans-serif;
-        }
-
-        /* --- Nuove Realizzazioni Section --- */
-        /* Questa sezione è pensata per la pagina "nuove-costruzioni.html" */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* Mobile: single column */
-            gap: 30px;
-        }
-
-        .project-item {
-            background-color: var(--color-white);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .project-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-
-        .project-item img {
-            width: 100%;
-            height: 250px; /* Fixed height for consistency */
-            object-fit: cover;
-        }
-
-        .project-item h3 {
-            margin: 20px 20px 10px 20px;
-            color: var(--color-orange);
-        }
-
-        .project-item p {
-            margin: 0 20px 20px 20px;
-            font-size: 0.95em;
-            color: var(--color-medium-gray);
-        }
-
-        /* --- Contatti Section --- */
-        /* Questa sezione è pensata per la pagina "contatti.html" */
-        .contact-grid {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 40px;
-        }
-
-        .contact-form, .contact-info {
-            flex: 1;
-            background-color: var(--color-white);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        }
-
-        .contact-form h3, .contact-info h3 {
-            color: var(--color-black);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--color-dark-gray);
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .contact-info .info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 1.1em;
-            color: var(--color-dark-gray);
-        }
-
-        .contact-info .info-item .icon {
-            width: 24px; /* Dimensione delle icone */
-            height: 24px;
-            margin-right: 15px;
-            filter: invert(0.2); /* Rende le icone scure se sono chiare */
-        }
-
-        .contact-info .info-item a {
-            color: var(--color-dark-gray);
-        }
-        .contact-info .info-item a:hover {
-            color: var(--color-orange);
-        }
-
-        .contact-info .legal-info {
-            font-size: 0.9em;
-            color: var(--color-medium-gray);
-            margin-top: 20px;
-            display: block; /* Overrides flex display */
-        }
-
-        .map-container {
-            margin-top: 30px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        /* --- Footer --- */
-        .main-footer {
-            background-color: var(--color-black);
-            color: var(--color-white);
-            padding: 40px 0;
-            font-size: 0.9em;
-        }
-
-        .main-footer .container {
-            display: flex;
-            flex-direction: column; /* Mobile: column layout */
-            gap: 30px;
-            text-align: center;
-        }
-
-        .footer-col {
-            flex: 1;
-        }
-
-        .footer-logo img {
-            height: 50px; /* Altezza logo nel footer */
-            margin-bottom: 15px;
-            display: inline-block; /* Per centrare l'immagine nel testo */
-            content: url('img/FF-COSTRUZIONI.png'); /* Usa il logo nero per il footer scuro */
-            filter: brightness(0) invert(1); /* Inverte il colore per renderlo bianco su sfondo nero */
-        }
-
-        .footer-logo p {
-            font-size: 0.85em;
-            color: var(--color-medium-gray);
-        }
-
-        .main-footer h4 {
-            color: var(--color-orange);
-            font-family: 'Oswald', sans-serif;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .main-footer ul {
-            padding: 0;
-        }
-
-        .main-footer ul li {
-            margin-bottom: 10px;
-        }
-
-        .main-footer ul li a {
-            color: var(--color-white);
-            transition: color 0.3s ease;
-        }
-
-        .main-footer ul li a:hover {
-            color: var(--color-orange);
-        }
-
-        .footer-contact p {
-            margin-bottom: 10px;
-        }
-
-        .footer-contact a {
-            color: var(--color-white);
-        }
-        .footer-contact a:hover {
-            color: var(--color-orange);
-        }
-
-        /* --- Media Queries per Desktop/Tablet --- */
-        @media (min-width: 768px) {
-            h1 {
-                font-size: 3.5em;
-            }
-
-            h2 {
-                font-size: 2.8em;
-            }
-
-            h3 {
-                font-size: 1.6em;
-            }
-
-            .section-padding {
-                padding: 80px 0;
-            }
-
-            /* Header - Desktop specific */
-            .mobile-menu-toggle {
-                display: none; /* Nasconde l'hamburger su desktop */
-            }
-
-            .main-nav {
-                position: static; /* Ripristina la posizione normale per desktop */
-                max-height: none; /* Rimuove limite altezza */
-                overflow: visible; /* Rimuove overflow nascosto */
-                background-color: transparent; /* Sfondo trasparente per il menu orizzontale */
-                box-shadow: none; /* Nessuna ombra per il menu orizzontale */
-                display: block; /* Mostra il menu come un blocco */
-            }
-
-            .main-nav ul {
-                display: flex; /* Menu orizzontale */
-                padding: 0;
-            }
-
-            .main-nav ul li {
-                margin: 0 15px;
-            }
-
-            .main-nav ul li a {
-                color: var(--color-black); /* Link neri su desktop */
-                padding: 5px 0;
-                background-color: transparent;
-            }
-
-            .main-nav ul li a:hover {
-                color: var(--color-orange);
-                background-color: transparent;
-            }
-            
-            /* Hero */
-            .hero-section {
-                min-height: 600px; /* Altezza leggermente maggiore su desktop */
-                padding-top: 150px; /* Per compensare l'header fisso */
-                padding-bottom: 100px; /* Un po' più di spazio sotto */
-            }
-
-            .hero-content h1 {
-                font-size: 4em;
-            }
-            
-            .hero-content p {
-                font-size: 1.15em; /* Leggermente più grande su desktop */
-            }
-
-            .hero-subpage {
-                padding-top: 150px; /* Anche per le sottopagine, per compensare l'header fisso */
-            }
-
-            .hero-subpage h1 {
-                font-size: 3em;
-            }
-
-            /* Chi Siamo
+        });
+    </script>
+</body>
+</html>
