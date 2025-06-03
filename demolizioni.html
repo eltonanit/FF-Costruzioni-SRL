@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF COSTRUZIONI - Demolizioni</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS INLINE -->
+    <style>
+        /* --- Variabili Colore --- */
+        :root {
+            --color-black: #000000;
+            --color-orange: #FF8C00; /* Arancione del logo */
+            --color-white: #FFFFFF;
+            --color-light-gray: #F5F5F5; /* Usato per sfondi di sezione */
+            --color-dark-gray: #333333; /* Testi secondari, footer */
+            --color-medium-gray: #777777; /* Testo più chiaro */
+        }
+
+        /* --- Reset e Base --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--color-dark-gray);
+            background-color: var(--color-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Rimuove lo spazio extra sotto le immagini */
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-orange);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-dark-gray);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--color-black);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 2.5em; /* Mobile */
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2em; /* Mobile */
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            font-size: 1.4em; /* Mobile */
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- Bottoni Generici --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap; /* Evita che il testo vada a capo sul bottone */
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background-color: var(--color-orange);
+            color: var(--color-white);
+            border: 2px solid var(--color-orange);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-black);
+            border-color: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-orange);
+            border: 2px solid var(--color-orange);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-orange);
+            color: var(--color-white);
+        }
+
+        .btn-tertiary {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            border: 2px solid var(--color-black);
+            padding: 8px 18px;
+            font-size: 0.9em;
+        }
+
+        .btn-tertiary:hover {
+            background-color: var(--color-orange);
+            border-color: var(--color-orange);
+            color: var(--color-white);
+        }
+
+        .section-padding {
+            padding: 60px 0; /* Standard padding for sections */
+        }
+
+        .section-description {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            font-size: 1.1em;
+            color: var(--color-medium-gray);
+        }
+
+        .bg-light-gray {
+            background-color: var(--color-light-gray);
+        }
+
+        /* --- Header --- */
+        .main-header {
+            background-color: var(--color-white);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .logo img {
+            height: 50px; /* Altezza del logo */
+            width: auto;
+        }
+
+        /* Menu Mobile (Hamburger) */
+        .mobile-menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001; /* Sopra il menu */
+        }
+
+        .mobile-menu-toggle .bar {
+            width: 100%;
+            height: 3px;
+            background-color: var(--color-black);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Animazione Hamburger */
+        .mobile-menu-toggle.active .bar:nth-child(1) {
+            transform: translateY(11px) rotate(45deg);
+        }
+        .mobile-menu-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-toggle.active .bar:nth-child(3) {
+            transform: translateY(-11px) rotate(-45deg);
+        }
+
+        .main-nav {
+            position: absolute;
+            top: 80px; /* Altezza header */
+            left: 0;
+            width: 100%;
+            background-color: var(--color-black); /* Sfondo scuro per il menu mobile */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        .main-nav.active {
+            max-height: 300px; /* Altezza massima per mostrare tutti i link */
+        }
+
+        .main-nav ul {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .main-nav ul li {
+            margin: 10px 0;
+        }
+
+        .main-nav ul li a {
+            display: block;
+            color: var(--color-white);
+            font-size: 1.1em;
+            padding: 10px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            background-color: var(--color-orange);
+        }
+
+        /* --- Hero Section (per la Home Page) --- */
+        /* Questa sezione è specifica per la home, ma il CSS è incluso per coerenza */
+        .hero-section {
+            background: url('img/hero-background.jpg') no-repeat center center/cover;
+            color: var(--color-white);
+            padding: 100px 15px; /* Mobile */
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px; /* Min height per mobile */
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Overlay scuro */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            color: var(--color-white);
+            font-size: 2.8em; /* Mobile */
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* --- Hero Section per le Sottopagine --- */
+        .hero-subpage {
+            background-color: var(--color-black); /* Sfondo scuro per sottosezioni */
+            color: var(--color-white);
+            padding: 80px 15px 40px; /* Padding ridotto rispetto alla home */
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-subpage h1 {
+            color: var(--color-white);
+            font-size: 2.2em;
+            margin-bottom: 0;
+        }
+        
+        .hero-subpage p {
+            font-size: 1.1em;
+            color: var(--color-medium-gray);
+            margin-top: 10px;
+        }
+
+
+        /* --- Chi Siamo Section --- */
+        /* Questa sezione è specifica per la home e chi-siamo, ma il CSS è incluso per coerenza */
+        .chi-siamo-grid {
+            display: flex;
+            flex-direction: column; /* Mobile: column layout */
+            gap: 30px;
+            align-items: center;
+        }
+
+        .chi-siamo-grid .text-content {
+            text-align: center; /* Centra il testo su mobile */
+        }
+
+        .chi-siamo-grid .image-content {
+            max-width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- Servizi Overview (Cards) --- */
+        /* Questa sezione è specifica per la home, ma il CSS è incluso per coerenza */
+        .services-grid {
+            display: flex;
+            flex-direction: column; /* Mobile: column layout */
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .service-card img {
+            height: 150px; /* Fixed height for image consistency */
+            object-fit: cover;
+            margin: 0 auto 20px auto;
+            border-radius: 4px;
+        }
+
+        .service-card h3 {
+            color: var(--color-orange);
+            font-size: 1.3em;
+        }
+
+        .service-card p {
+            font-size: 0.95em;
+            margin-bottom: 20px;
+        }
+
+        /* --- Sezioni Dettaglio Servizi (Demolizioni, Ristrutturazioni, Nuove Costruzioni) --- */
+        /* Queste sezioni sono specifiche per le pagine dedicate, ma il CSS è incluso per coerenza */
+        .section-content-grid {
+            display: flex;
+            flex-direction: column; /* Mobile: column layout */
+            gap: 40px;
+            align-items: center;
+        }
+
+        .section-content-grid .text-content,
+        .section-content-grid .image-content {
+            flex: 1; /* Allow content to grow */
+            text-align: center; /* Centra il testo su mobile */
+        }
+
+        .section-content-grid .image-content img {
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-content-grid ul {
+            list-style: disc;
+            list-style-position: inside;
+            margin-bottom: 20px;
+            text-align: left; /* Allinea il testo delle liste a sinistra */
+            padding-left: 20px; /* Indentazione per i pallini */
+        }
+
+        .section-content-grid ul li {
+            margin-bottom: 10px;
+        }
+
+        .call-to-action-small {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px 20px;
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .call-to-action-small p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: var(--color-black);
+            font-family: 'Oswald', sans-serif;
+        }
+
+        /* --- Nuove Realizzazioni Section --- */
+        /* Questa sezione è specifica per la pagina Nuove Costruzioni, ma il CSS è incluso per coerenza */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile: single column */
+            gap: 30px;
+        }
+
+        .project-item {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .project-item img {
+            width: 100%;
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover;
+        }
+
+        .project-item h3 {
+            margin: 20px 20px 10px 20px;
+            color: var(--color-orange);
+        }
+
+        .project-item p {
+            margin: 0 20px 20px 20px;
+            font-size: 0.95em;
+            color: var(--color-medium-gray);
+        }
+
+        /* --- Contatti Section --- */
+        /* Questa sezione è specifica per la pagina Contatti, ma il CSS è incluso per coerenza */
+        .contact-grid {
+            display: flex;
+            flex-direction: column; /* Mobile: column layout */
+            gap: 40px;
+        }
+
+        .contact-form, .contact-info {
+            flex: 1;
+            background-color: var(--color-white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .contact-form h3, .contact-info h3 {
+            color: var(--color-black);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--color-dark-gray);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .contact-info .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: var(--color-dark-gray);
+        }
+
+        .contact-info .info-item .icon {
+            width: 24px; /* Dimensione delle icone */
+            height: 24px;
+            margin-right: 15px;
+            filter: invert(0.2); /* Rende le icone scure se sono chiare */
+        }
+
+        .contact-info .info-item a {
+            color: var(--color-dark-gray);
+        }
+        .contact-info .info-item a:hover {
+            color: var(--color-orange);
+        }
+
+        .contact-info .legal-info {
+            font-size: 0.9em;
+            color: var(--color-medium-gray);
+            margin-top: 20px;
+            display: block; /* Overrides flex display */
+        }
+
+        .map-container {
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 40px 0;
+            font-size: 0.9em;
+        }
+
+        .main-footer .container {
+            display: flex;
+            flex-direction: column; /* Mobile: column layout */
+            gap: 30px;
+            text-align: center;
+        }
+
+        .footer-col {
+            flex: 1;
+        }
+
+        .footer-logo img {
+            height: 50px; /* Altezza logo nel footer */
+            margin-bottom: 15px;
+            display: inline-block; /* Per centrare l'immagine nel testo */
+        }
+
+        .footer-logo p {
+            font-size: 0.85em;
+            color: var(--color-medium-gray);
+        }
+
+        .main-footer h4 {
+            color: var(--color-orange);
+            font-family: 'Oswald', sans-serif;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .main-footer ul {
+            padding: 0;
+        }
+
+        .main-footer ul li {
+            margin-bottom: 10px;
+        }
+
+        .main-footer ul li a {
+            color: var(--color-white);
+            transition: color 0.3s ease;
+        }
+
+        .main-footer ul li a:hover {
+            color: var(--color-orange);
+        }
+
+        .footer-contact p {
+            margin-bottom: 10px;
+        }
+
+        .footer-contact a {
+            color: var(--color-white);
+        }
+        .footer-contact a:hover {
+            color: var(--color-orange);
+        }
+
+        /* --- Media Queries per Desktop/Tablet (Mobile-First) --- */
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 3.5em;
+            }
+
+            h2 {
+                font-size: 2.8em;
+            }
+
+            h3 {
+                font-size: 1.6em;
+            }
+
+            .section-padding {
+                padding: 80px 0;
+            }
+
+            /* Header */
+            .mobile-menu-toggle {
+                display: none; /* Nasconde l'hamburger su desktop */
+            }
+
+            .main-nav {
+                position: static; /* Ripristina la posizione normale */
+                max-height: none;
+                overflow: visible;
+                background-color: transparent;
+                box-shadow: none;
+                display: block; /* Mostra il menu */
+            }
+
+            .main-nav ul {
+                display: flex; /* Menu orizzontale */
+                padding: 0;
+            }
+
+            .main-nav ul li {
+                margin: 0 15px;
+            }
+
+            .main-nav ul li a {
+                color: var(--color-black); /* Colore link su desktop */
+                padding: 5px 0;
+                background-color: transparent;
+            }
+
+            .main-nav ul li a:hover {
+                color: var(--color-orange);
+                background-color: transparent;
+            }
+
+            /* Hero */
+            .hero-section {
+                padding: 150px 15px;
+            }
+
+            .hero-content h1 {
+                font-size: 4em;
+            }
+            
+            .hero-content p {
+                font-size: 1.4em;
+            }
+
+            .hero-subpage h1 {
+                font-size: 3em;
+            }
+
+            /* Chi Siamo */
+            .chi-siamo-grid {
+                flex-direction: row; /* Desktop: row layout */
+                text-align: left;
+            }
+
+            .chi-siamo-grid .text-content,
+            .chi-siamo-grid .image-content {
+                flex: 1; /* Distribuire lo spazio in modo equo */
+            }
+
+            /* Servizi Overview */
+            .services-grid {
+                flex-direction: row; /* Desktop: row layout */
+                justify-content: center; /* Centra le card se meno di 3 */
+            }
+
+            .service-card {
+                flex: 1; /* Fa sì che le card occupino spazio equo */
+                max-width: 380px; /* Limita la larghezza massima di una card */
+            }
+
+            /* Sezioni Dettaglio Servizi */
+            .section-content-grid {
+                flex-direction: row; /* Desktop: row layout */
+                text-align: left;
+            }
+
+            .section-content-grid.reverse-order-mobile {
+                flex-direction: row-reverse; /* Per invertire l'ordine su desktop */
+            }
+
+            .section-content-grid .text-content ul {
+                padding-left: 0; /* Rimuovi l'indentazione extra su desktop */
+            }
+
+
+            /* Nuove Realizzazioni */
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2 o 3 colonne */
+            }
+
+            /* Contatti */
+            .contact-grid {
+                flex-direction: row; /* Desktop: row layout */
+            }
+
+            /* Footer */
+            .main-footer .container {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+
+            .footer-logo img {
+                margin-left: 0; /* Allinea a sinistra */
+            }
+        }
+
+        /* Media Query per schermi molto grandi (>1024px) */
+        @media (min-width: 1024px) {
+            h1 {
+                font-size: 4.5em;
+            }
+
+            h2 {
+                font-size: 3.2em;
+            }
+            
+            .hero-section {
+                min-height: 600px;
+            }
+        }
+    </style>
+    <!-- FINE CSS INLINE -->
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="img/FF-COSTRUZIONI.png" alt="FF Costruzioni Logo">
+            </a>
+            
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <nav class="main-nav" id="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                    <li><a href="demolizioni.html">Demolizioni</a></li>
+                    <li><a href="ristrutturazioni.html">Ristrutturazioni</a></li>
+                    <li><a href="nuove-costruzioni.html">Nuove Realizzazioni</a></li>
+                    <li><a href="contatti.html">Contatti</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-subpage">
+            <div class="container">
+                <h1>Demolizioni</h1>
+                <p>Sicurezza ed efficienza in ogni intervento di demolizione.</p>
+            </div>
+        </section>
+
+        <section class="section-padding bg-light-gray">
+            <div class="container">
+                <h2>I Nostri Servizi di Demolizione</h2>
+                <div class="section-content-grid">
+                    <div class="text-content">
+                        <p>FF COSTRUZIONI è specializzata in servizi di demolizione precisi e sicuri, sia per strutture civili che industriali. Utilizziamo tecniche e macchinari all'avanguardia per garantire interventi rapidi, efficienti e nel pieno rispetto delle normative di sicurezza.</p>
+                        <h3>Offriamo:</h3>
+                        <ul>
+                            <li>Demolizioni parziali e totali di edifici e strutture</li>
+                            <li>Demolizioni controllate e selettive in ambienti complessi</li>
+                            <li>Smaltimento e recupero dei materiali di risulta con certificazioni ambientali</li>
+                            <li>Bonifiche e messa in sicurezza dei siti post-demolizione</li>
+                            <li>Gestione completa delle pratiche burocratiche e permessi</li>
+                        </ul>
+                        <p>La nostra priorità è la sicurezza del cantiere e la gestione responsabile dei materiali di risulta, con un occhio di riguardo all'impatto ambientale.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="img/demolizioni-detail.jpg" alt="Macchine per demolizioni in un cantiere">
+                    </div>
+                </div>
+                <div class="call-to-action-small">
+                    <p>Hai bisogno di un intervento di demolizione?</p>
+                    <a href="contatti.html" class="btn btn-primary">Contattaci per una Valutazione Gratuita</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-col footer-logo">
+                <img src="img/ff-logo-white.png" alt="FF Costruzioni Logo Bianco"> 
+                <p>© 2023 FF COSTRUZIONI. Tutti i diritti riservati.</p>
+            </div>
+            <div class="footer-col footer-nav">
+                <h4>Link Utili</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                    <li><a href="nuove-costruzioni.html">Realizzazioni</a></li>
+                    <li><a href="contatti.html">Contatti</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h4>Contatti Rapidi</h4>
+                <p>Tel: <a href="tel:3485530158">348 5530158</a></p>
+                <p>Email: <a href="mailto:ffcostruzioni96@gmail.com">ffcostruzioni96@gmail.com</a></p>
+                <p>C.F. e P.IVA 02108050382</p>
+            </div>
+            <div class="footer-col footer-legal">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript per il menu mobile -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const navLinks = mainNav.querySelectorAll('a');
+
+            mobileMenuToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+                mobileMenuToggle.classList.toggle('active');
+            });
+
+            // Chiudi il menu quando si clicca su un link
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Solo se il link è un'ancora interna (non cambia pagina)
+                    if (link.getAttribute('href').startsWith('#') && mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileMenuToggle.classList.remove('active');
+                    }
+                    // Se il link cambia pagina, il browser ricaricherà e il menu sarà già chiuso
+                });
+            });
+        });
+    </script>
+</body>
+</html>
